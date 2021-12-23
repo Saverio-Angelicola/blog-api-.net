@@ -16,17 +16,20 @@ services:
       - blog
     restart: unless-stopped
   
-  blogapi:
-    container_name: blogapi
+  bpostgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
     ports:
-        - 5555:80
-    build: .
-    links:
-        - postgres
-    depends_on:
-        - "postgres"
+      - '5432:5432'
     networks:
-        - blog
+      - blog
+    restart: unless-stopped
 
 volumes:
   postgres:
