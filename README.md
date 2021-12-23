@@ -1,7 +1,7 @@
 ## About The Project
 
 It is a back-end Web API type application developed in C # and .Net Core 6 to manage a blog with authentication.
-I created this personal project in my free time in order to learn and progress in C #, .Net and the Microsoft eco-system.
+I created this personal project in my free time in order to learn and progress in C#, .Net and the Microsoft eco-system.
 
 ### Built With
 
