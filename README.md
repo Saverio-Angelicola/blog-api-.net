@@ -1,5 +1,3 @@
-[![Contributors][contributors-shield]][contributors-url] [![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url] [![Issues][issues-shield]][issues-url]
-
 ## About The Project
 
 It is a back-end Web API type application developed in C # and .Net Core 6 to manage a blog with authentication.
