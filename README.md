@@ -2,8 +2,6 @@
 
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
-
 It is a back-end Web API type application developed in C # and .Net Core 6 to manage a blog with authentication.
 I created this personal project in my free time in order to learn and progress in C #, .Net and the Microsoft eco-system.
 
@@ -72,4 +70,3 @@ Project Link: [https://github.com/Saverio-Angelicola/blog-api-.net](https://gith
 [issues-url]: https://github.com/Saverio-Angelicola/blog-api-.net/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: docs/cover.jpg
