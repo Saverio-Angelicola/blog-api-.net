@@ -11,12 +11,12 @@ namespace blog_api.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
-        private readonly IArticleService _articleService;
+        private readonly IArticleService articleService;
         private readonly ILogger<ArticleController> _logger;
 
         public ArticleController(IArticleService articleService, ILogger<ArticleController> logger)
         {
-            _articleService = articleService;
+            this.articleService = articleService;
             _logger = logger;
         }
 
@@ -25,7 +25,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(_articleService.GetArticles());
+                return Ok(articleService.GetArticles());
             }
             catch (Exception)
             {
@@ -38,7 +38,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(_articleService.GetArticle(id));
+                return Ok(articleService.GetArticle(id));
             }
             catch (Exception)
             {
@@ -51,7 +51,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(await _articleService.GetArticleByCategory(categoryId));
+                return Ok(await articleService.GetArticleByCategory(categoryId));
             }
             catch (Exception)
             {
@@ -65,7 +65,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                Article createdArticle = await _articleService.Create(newArticle);
+                Article createdArticle = await articleService.Create(newArticle);
                 _logger.LogInformation("Successful article creation!");
                 return Ok(createdArticle);
             }
@@ -81,7 +81,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                Article updatedArticle = await _articleService.Update(id, article);
+                Article updatedArticle = await articleService.Update(id, article);
                 _logger.LogInformation("Successful updated article");
                 return Ok(updatedArticle);
             }
@@ -97,7 +97,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                Article deletedArticle = await _articleService.Delete(id);
+                Article deletedArticle = await articleService.Delete(id);
                 _logger.LogInformation("successful deleted article");
                 return Ok(deletedArticle);
             }
