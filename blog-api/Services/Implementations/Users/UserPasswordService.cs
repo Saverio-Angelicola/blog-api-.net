@@ -13,7 +13,7 @@ namespace blog_api.Services.Implementations.Users
         public UserPasswordService(IPasswordHasher<User> passwordHasher, IUserRepository userRepository)
         {
             this.passwordHasher = passwordHasher;
-            thid.userRepository = userRepository;
+            this.userRepository = userRepository;
         }
 
         public string HashPassword(User user)
