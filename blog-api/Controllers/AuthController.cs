@@ -14,12 +14,12 @@ namespace blog_api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
-        private readonly IUserService _userService;
+        private readonly IAuthService authService;
+        private readonly IUserService userService;
         private readonly ILogger<AuthController> _logger;
-        private readonly ITokenService _tokenService;
-        private readonly IUserPasswordService _passwordService;
-        private readonly IUserInfosUpdatorService _userInfosUpdatorService;
+        private readonly ITokenService tokenService;
+        private readonly IUserPasswordService passwordService;
+        private readonly IUserInfosUpdatorService userInfosUpdatorService;
 
         public AuthController
             (
@@ -28,12 +28,12 @@ namespace blog_api.Controllers
             IUserInfosUpdatorService userInfosUpdatorService
             )
         {
-            _authService = authService;
-            _userService = userService;
+            this.authService = authService;
+            this.userService = userService;
             _logger = logger;
-            _tokenService = tokenService;
-            _passwordService = passwordService;
-            _userInfosUpdatorService = userInfosUpdatorService;
+            this.tokenService = tokenService;
+            this.passwordService = passwordService;
+            this.userInfosUpdatorService = userInfosUpdatorService;
         }
 
         [HttpPost("register")]
@@ -41,7 +41,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                User createdUser = await _userService.Create(user);
+                User createdUser = await userService.Create(user);
                 _logger.LogInformation("Successful registration.");
 
                 return Ok(createdUser);
@@ -59,7 +59,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                TokenDto jwt = _authService.Login(user);
+                TokenDto jwt = authService.Login(user);
                 _logger.LogInformation("successful login.");
 
                 return Ok(jwt);
@@ -78,8 +78,8 @@ namespace blog_api.Controllers
         {
             try
             {
-                string email = _tokenService.GetJwtTokenFromAuthorizationHeader(HttpContext).Payload.Claims.ElementAt(0).Value;
-                User? user = _userService.GetUserByEmail(email);
+                string email = tokenService.GetJwtTokenFromAuthorizationHeader(HttpContext).Payload.Claims.ElementAt(0).Value;
+                User? user = userService.GetUserByEmail(email);
 
                 if (user == null)
                 {
@@ -99,13 +99,13 @@ namespace blog_api.Controllers
         {
             try
             {
-                string email = _tokenService.GetJwtTokenFromAuthorizationHeader(HttpContext).Payload.Claims.ElementAt(0).Value;
-                User? user = _userService.GetUserByEmail(email);
+                string email = tokenService.GetJwtTokenFromAuthorizationHeader(HttpContext).Payload.Claims.ElementAt(0).Value;
+                User? user = userService.GetUserByEmail(email);
                 if (user == null)
                 {
                     return BadRequest("Error : User not found !");
                 }
-                await _passwordService.UpdatePassword(user, passwordDto.CurrentPassword, passwordDto.NewPassword);
+                await passwordService.UpdatePassword(user, passwordDto.CurrentPassword, passwordDto.NewPassword);
                 return Ok();
             }
             catch (Exception)
@@ -120,14 +120,14 @@ namespace blog_api.Controllers
         {
             try
             {
-                string email = _tokenService.GetJwtTokenFromAuthorizationHeader(HttpContext).Payload.Claims.ElementAt(0).Value;
-                User? user = _userService.GetUserByEmail(email);
+                string email = tokenService.GetJwtTokenFromAuthorizationHeader(HttpContext).Payload.Claims.ElementAt(0).Value;
+                User? user = userService.GetUserByEmail(email);
                 if (user == null)
                 {
                     return BadRequest("Error : User not found !");
                 }
 
-                await _userInfosUpdatorService.UpdateInfos(user, userInfosDto);
+                await userInfosUpdatorService.UpdateInfos(user, userInfosDto);
                 return Ok();
             }
             catch (Exception)
