@@ -7,11 +7,11 @@ namespace blog_api.Services.Implementations.Users
 {
     public class UserInfosUpdatorService : IUserInfosUpdatorService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserRepository userRepository;
 
-        public UserInfosUpdatorService(IUserRepository repository)
+        public UserInfosUpdatorService(IUserRepository userRepository)
         {
-            _userRepository = repository;
+            this.userRepository = userRepository;
         }
 
         public async Task UpdateInfos(User user, UpdateUserInfosDto userInfosDto)
@@ -24,7 +24,7 @@ namespace blog_api.Services.Implementations.Users
             user.FirstName = userInfosDto.Firstname;
             user.LastName = userInfosDto.Lastname;
 
-            await _userRepository.Update(user);
+            await userRepository.Update(user);
         }
     }
 }

@@ -8,30 +8,30 @@ namespace blog_api.Services.Implementations.Users
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserPasswordService _passwordService;
+        private readonly IUserRepository userRepository;
+        private readonly IUserPasswordService passwordService;
 
-        public UserService(IUserRepository repository, IUserPasswordService passwordService)
+        public UserService(IUserRepository userRepository, IUserPasswordService passwordService)
         {
-            this._userRepository = repository;
-            this._passwordService = passwordService;
+            this.userRepository = userRepository;
+            this.passwordService = passwordService;
         }
 
         public async Task<User> Create(CreateUserDto user)
         {
             User newUser = new(user.FirstName, user.LastName, user.Email, user.Password, true);
-            newUser.Password = _passwordService.HashPassword(newUser);
-            return await _userRepository.Create(newUser);
+            newUser.Password = passwordService.HashPassword(newUser);
+            return await userRepository.Create(newUser);
         }
 
         public User? GetUserByEmail(string email)
         {
-            return _userRepository.FindByEmail(email);
+            return userRepository.FindByEmail(email);
         }
 
         public User GetUserById(int id)
         {
-            return _userRepository.FindById(id);
+            return userRepository.FindById(id);
         }
     }
 }
