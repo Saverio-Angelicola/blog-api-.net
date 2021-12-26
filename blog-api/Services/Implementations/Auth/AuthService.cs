@@ -26,13 +26,9 @@ namespace blog_api.Services.Implementations.Auth
             User? user = this.userService.GetUserByEmail(loginUser.Email);
 
             if (user != null && this.passwordService.PasswordVerify(user, loginUser.Password))
-            {
                 return this.tokenService.CreateJwtToken(user);
-            }
-            else
-            {
-                throw new Exception("Unauthorized");
-            }
+            
+            throw new Exception("Unauthorized");
         }
     }
 }
