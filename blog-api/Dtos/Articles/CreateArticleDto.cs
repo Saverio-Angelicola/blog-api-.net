@@ -6,6 +6,12 @@
         public string Content { get; set; }
         public string Author { get; set; }
         public int CategoryId { get; set; }
+        public CreateArticleDto()
+        {
+            Title = string.Empty;
+            Content = string.Empty;
+            Author = string.Empty;
+        }
         public CreateArticleDto(string title, string content, string author, int categoryId)
         {
             Title = title;
