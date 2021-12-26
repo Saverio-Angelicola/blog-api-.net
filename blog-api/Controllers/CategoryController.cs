@@ -10,11 +10,11 @@ namespace blog_api.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryService categoryService;
 
         public CategoryController(ICategoryService categoryService)
         {
-            _categoryService = categoryService;
+            this.categoryService = categoryService;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(_categoryService.GetAllCategories().ToList());
+                return Ok(categoryService.GetAllCategories().ToList());
             }
             catch (Exception)
             {
@@ -35,7 +35,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(await _categoryService.Add(category.Name));
+                return Ok(await categoryService.Add(category.Name));
             }
             catch (Exception)
             {
@@ -46,7 +46,7 @@ namespace blog_api.Controllers
         [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> UpdateCategory([FromRoute(Name = "id")] int id, CategoryDto category)
         {
-            return await _categoryService.Update(id, category.Name);
+            return await categoryService.Update(id, category.Name);
         }
     }
 }
