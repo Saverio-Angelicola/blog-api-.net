@@ -8,23 +8,23 @@ namespace blog_api.Services.Implementations.Users
 {
     public class ArticleService : IArticleService
     {
-        private readonly IArticleRepository _articleRepository;
-        private readonly ICategoryService _categoryService;
+        private readonly IArticleRepository articleRepository;
+        private readonly ICategoryService categoryService;
 
         public ArticleService(IArticleRepository articleRepository, ICategoryService categoryService)
         {
-            _articleRepository = articleRepository;
-            _categoryService = categoryService;
+            this.articleRepository = articleRepository;
+            this.categoryService = categoryService;
         }
 
         public async Task<Article> Create(CreateArticleDto newArticle)
         {
             try
             {
-                Category category = _categoryService.GetCategoryById(newArticle.CategoryId);
+                Category category = this.categoryService.GetCategoryById(newArticle.CategoryId);
                 Article article = new(newArticle.Title, newArticle.Content, newArticle.Author);
                 article.Category = category;
-                Article createdArticle = await _articleRepository.Create(article);
+                Article createdArticle = await articleRepository.Create(article);
                 return createdArticle;
             }
             catch (Exception)
@@ -36,16 +36,16 @@ namespace blog_api.Services.Implementations.Users
 
         public async Task<Article> Delete(int id)
         {
-            Article article = _articleRepository.FindById(id);
+            Article article = articleRepository.FindById(id);
 
-            return await _articleRepository.Delete(article);
+            return await articleRepository.Delete(article);
         }
 
         public Article GetArticle(int id)
         {
             try
             {
-                return _articleRepository.FindById(id);
+                return articleRepository.FindById(id);
             }
             catch (Exception)
             {
@@ -56,17 +56,17 @@ namespace blog_api.Services.Implementations.Users
 
         public async Task<List<Article>> GetArticleByCategory(int CategoryId)
         {
-            return await _articleRepository.FindByCategory(CategoryId);
+            return await articleRepository.FindByCategory(CategoryId);
         }
 
         public List<Article> GetArticles()
         {
-            return _articleRepository.FindAll();
+            return articleRepository.FindAll();
         }
 
         public async Task<Article> Update(int id, UpdateArticleDto updatedArticle)
         {
-            Article currentArticle = _articleRepository.FindById(id);
+            Article currentArticle = articleRepository.FindById(id);
             if (currentArticle != null)
             {
                 if (updatedArticle.Title != null && updatedArticle.Title.Length > 0 && updatedArticle.Title != currentArticle.Title)
@@ -81,7 +81,7 @@ namespace blog_api.Services.Implementations.Users
 
                 if (updatedArticle.CategoryId != null && updatedArticle.CategoryId > 0 && updatedArticle.CategoryId != currentArticle.CategoryId)
                 {
-                    Category? category = _categoryService.GetCategoryById((int)updatedArticle.CategoryId);
+                    Category? category = categoryService.GetCategoryById((int)updatedArticle.CategoryId);
 
                     if (category != null)
                     {
@@ -94,7 +94,7 @@ namespace blog_api.Services.Implementations.Users
                 }
 
                 currentArticle.UpdatedDate = DateTime.UtcNow;
-                return await _articleRepository.Update(currentArticle);
+                return await articleRepository.Update(currentArticle);
             }
             throw new Exception("Article with id " + id + " not found ");
         }
