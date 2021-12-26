@@ -4,9 +4,7 @@
 
 namespace blog_api.Migrations
 {
-#pragma warning disable IDE1006 // Styles d'affectation de noms
     public partial class updateArticle : Migration
-#pragma warning restore IDE1006 // Styles d'affectation de noms
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
