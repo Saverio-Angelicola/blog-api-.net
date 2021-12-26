@@ -2,7 +2,6 @@
 using blog_api.Models;
 using blog_api.Services.Interfaces.Articles;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace blog_api.Controllers
