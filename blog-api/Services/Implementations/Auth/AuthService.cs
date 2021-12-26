@@ -10,24 +10,24 @@ namespace blog_api.Services.Implementations.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly ITokenService _tokenService;
-        private readonly IUserService _userService;
-        private readonly IUserPasswordService _passwordService;
+        private readonly ITokenService tokenService;
+        private readonly IUserService userService;
+        private readonly IUserPasswordService passwordService;
 
         public AuthService(ITokenService tokenService, IUserService userService, IUserPasswordService passwordService)
         {
-            _tokenService = tokenService;
-            _userService = userService;
-            _passwordService = passwordService;
+            this.tokenService = tokenService;
+            this.userService = userService;
+            this.passwordService = passwordService;
         }
 
         public TokenDto Login(LoginUserDto loginUser)
         {
-            User? user = _userService.GetUserByEmail(loginUser.Email);
+            User? user = this.userService.GetUserByEmail(loginUser.Email);
 
-            if (user != null && _passwordService.PasswordVerify(user, loginUser.Password))
+            if (user != null && this.passwordService.PasswordVerify(user, loginUser.Password))
             {
-                return _tokenService.CreateJwtToken(user);
+                return this.tokenService.CreateJwtToken(user);
             }
             else
             {
