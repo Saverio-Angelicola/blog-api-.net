@@ -16,7 +16,7 @@ services:
       - blog
     restart: unless-stopped
   
-  bpostgres:
+  postgres:
     container_name: postgres_container
     image: postgres
     environment:
