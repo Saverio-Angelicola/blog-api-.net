@@ -9,7 +9,7 @@ I created this personal project in my free time in order to learn and progress i
 * .Net Core 6
 * Entity Framework 6
 * ProstgreSQL
-* Nunit (Unit Test)
+* Xunit (Unit Test)
 * Docker
 * Github
 * Visual studio 2022
