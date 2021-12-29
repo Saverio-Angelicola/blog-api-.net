@@ -21,7 +21,7 @@ namespace blog_api.Services.Implementations.Users
         {
             try
             {
-                Category category = this.categoryService.GetCategoryById(newArticle.CategoryId);
+                Category category = categoryService.GetCategoryById(newArticle.CategoryId);
                 Article article = new(newArticle.Title, newArticle.Content, newArticle.Author);
                 article.Category = category;
                 Article createdArticle = await articleRepository.Create(article);
