@@ -1,4 +1,5 @@
 ﻿using blog_api.Controllers;
+using blog_api.Dtos.Categories;
 using blog_api.Models;
 using blog_api.Services.Interfaces.Categories;
 using FluentAssertions;
@@ -56,6 +57,44 @@ namespace blog.api.UnitTests
             CategoryController controller = new(categoryServiceStub.Object);
             //Act
             var result = controller.GetAllCategories();
+            //Assert
+            result.Result.Should().BeOfType<BadRequestResult>();
+        }
+
+        [Fact]
+        public async Task AddCategory_WithCategory_ReturnOk()
+        {
+            //Arrange
+            Category expected = createdRandomCategory();
+            categoryServiceStub.Setup(service=>service.Add(It.IsAny<CategoryDto>())).ReturnsAsync(expected);
+            CategoryController controller = new(categoryServiceStub.Object);
+            //Act
+            var result = await controller.AddCategory(It.IsAny<CategoryDto>());
+            //Assert
+            result.Result.Should().BeOfType<OkObjectResult>();
+        }
+
+        [Fact]
+        public async Task AddCategory_WithCategory_ReturnCategory()
+        {
+            //Arrange
+            Category expected = createdRandomCategory();
+            categoryServiceStub.Setup(service => service.Add(It.IsAny<CategoryDto>())).ReturnsAsync(expected);
+            CategoryController controller = new(categoryServiceStub.Object);
+            //Act
+            var result = (await controller.AddCategory(It.IsAny<CategoryDto>())).Result as OkObjectResult;
+            //Assert
+            result.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Category>());
+        }
+
+        [Fact]
+        public async Task AddCategory_WithException_ReturnBadRequest()
+        {
+            //Arrange
+            categoryServiceStub.Setup(service => service.Add(It.IsAny<CategoryDto>())).Throws(new Exception());
+            CategoryController controller = new(categoryServiceStub.Object);
+            //Act
+            var result = await controller.AddCategory(It.IsAny<CategoryDto>());
             //Assert
             result.Result.Should().BeOfType<BadRequestResult>();
         }
