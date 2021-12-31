@@ -35,7 +35,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(await categoryService.Add(category.Name));
+                return Ok(await categoryService.Add(category));
             }
             catch (Exception)
             {
