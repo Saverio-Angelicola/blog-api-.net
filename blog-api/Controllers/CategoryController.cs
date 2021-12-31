@@ -46,7 +46,15 @@ namespace blog_api.Controllers
         [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> UpdateCategory([FromRoute(Name = "id")] int id, CategoryDto category)
         {
-            return await categoryService.Update(id, category.Name);
+            try
+            {
+                return await categoryService.Update(id, category.Name);
+            }
+            catch(Exception)
+            {
+                return NotFound();
+            }
+            
         }
     }
 }
