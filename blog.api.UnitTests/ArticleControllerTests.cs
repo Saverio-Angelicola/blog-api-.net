@@ -23,28 +23,29 @@ namespace blog.api.UnitTests
         }
 
         [Fact]
-        public void GetArticles_WithEmptyList_ReturnsArticleList()
-        {
-            //Arrange
-            articleServiceStub.Setup(service => service.GetArticles()).Returns(new List<Article>());
-            ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
-            //Act
-            var result = controller.GetArticles();
-            //Assert
-            result.Should().BeOfType<List<Article>>();
-        }
-
-        [Fact]
-        public void GetArticles_With3Articles_ReturnsAllArticles()
+        public void GetArticles_WithArticles_ReturnsOk()
         {
             //Arrange
             List<Article> expected = new() { CreateRandomArticle(), CreateRandomArticle(), CreateRandomArticle() };
             articleServiceStub.Setup(service => service.GetArticles()).Returns(expected);
             ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
             //Act
-            var result = (controller.GetArticles().Result as OkObjectResult).Value;
+            var result = controller.GetArticles().Result;
             //Assert
-            result.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
+            result.Should().BeOfType<OkObjectResult>();
+        }
+
+        [Fact]
+        public void GetArticles_WithArticles_ReturnsAllArticles()
+        {
+            //Arrange
+            List<Article> expected = new() { CreateRandomArticle(), CreateRandomArticle(), CreateRandomArticle() };
+            articleServiceStub.Setup(service => service.GetArticles()).Returns(expected);
+            ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
+            //Act
+            var result = (controller.GetArticles().Result as OkObjectResult);
+            //Assert
+            result.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
         }
 
         [Fact]
@@ -57,6 +58,34 @@ namespace blog.api.UnitTests
             var result = controller.GetArticles().Result;
             //Assert
             result.Should().BeOfType<BadRequestResult>();
+        }
+
+        [Fact]
+        public void GetArticle_WithArticle_ReturnsOk()
+        {
+            //Arrange
+            Article expected = CreateRandomArticle();
+            articleServiceStub.Setup(service => service.GetArticle(It.IsAny<int>())).Returns(expected);
+            ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
+            //Act
+            var result = controller.GetArticle(It.IsAny<int>());
+            //Assert
+            result.Result.Should().BeOfType<OkObjectResult>();
+
+        }
+
+        [Fact]
+        public void GetArticle_WithArticle_ReturnsNotFound()
+        {
+            //Arrange
+            Article expected = CreateRandomArticle();
+            articleServiceStub.Setup(service => service.GetArticle(It.IsAny<int>())).Throws(new Exception());
+            ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
+            //Act
+            var result = controller.GetArticle(It.IsAny<int>());
+            //Assert
+            result.Result.Should().BeOfType<NotFoundResult>();
+
         }
 
         [Fact]
