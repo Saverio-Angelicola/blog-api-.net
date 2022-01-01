@@ -16,7 +16,7 @@ namespace blog.api.UnitTests
 {
     public class CategoryControllerTests
     {
-        private Mock<ICategoryService> categoryServiceStub;
+        private readonly Mock<ICategoryService> categoryServiceStub;
 
         public CategoryControllerTests()
         {
@@ -27,7 +27,7 @@ namespace blog.api.UnitTests
         public void GetAllCategories_WhithCategoryList_ReturnsOk()
         {
             //Arrange
-            List<Category> expected = new List<Category>() {createdRandomCategory(),createdRandomCategory() };
+            List<Category> expected = new() {CreatedRandomCategory(),CreatedRandomCategory() };
             categoryServiceStub.Setup(service => service.GetAllCategories()).Returns(expected);
             CategoryController controller = new (categoryServiceStub.Object);
             //Act
@@ -40,13 +40,13 @@ namespace blog.api.UnitTests
         public void GetAllCategories_WhithCategoryList_ReturnsAllCategory()
         {
             //Arrange
-            List<Category> expected = new List<Category>() { createdRandomCategory(), createdRandomCategory() };
+            List<Category> expected = new () { CreatedRandomCategory(), CreatedRandomCategory() };
             categoryServiceStub.Setup(service => service.GetAllCategories()).Returns(expected);
             CategoryController controller = new(categoryServiceStub.Object);
             //Act
             var result = controller.GetAllCategories().Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Category>());
+            result?.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Category>());
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace blog.api.UnitTests
         public async Task AddCategory_WithCategory_ReturnOk()
         {
             //Arrange
-            Category expected = createdRandomCategory();
+            Category expected = CreatedRandomCategory();
             categoryServiceStub.Setup(service=>service.Add(It.IsAny<CategoryDto>())).ReturnsAsync(expected);
             CategoryController controller = new(categoryServiceStub.Object);
             //Act
@@ -78,13 +78,13 @@ namespace blog.api.UnitTests
         public async Task AddCategory_WithCategory_ReturnCategory()
         {
             //Arrange
-            Category expected = createdRandomCategory();
+            Category expected = CreatedRandomCategory();
             categoryServiceStub.Setup(service => service.Add(It.IsAny<CategoryDto>())).ReturnsAsync(expected);
             CategoryController controller = new(categoryServiceStub.Object);
             //Act
             var result = (await controller.AddCategory(It.IsAny<CategoryDto>())).Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Category>());
+            result?.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Category>());
         }
 
         [Fact]
@@ -99,9 +99,47 @@ namespace blog.api.UnitTests
             result.Result.Should().BeOfType<BadRequestResult>();
         }
 
-        private Category createdRandomCategory()
+        [Fact]
+        public async Task UpdateCategory_WithArticle_ReturnOk()
         {
-            Category category = new Category(Guid.NewGuid().ToString());
+            //Arrange
+            Category expected = CreatedRandomCategory();
+            categoryServiceStub.Setup(service => service.Update(It.IsAny<int>(),It.IsAny<CategoryDto>())).ReturnsAsync(expected);
+            CategoryController controller = new(categoryServiceStub.Object);
+            //Act
+            var result = await controller.UpdateCategory(It.IsAny<int>(), It.IsAny<CategoryDto>());
+            //Assert
+            result.Result.Should().BeOfType<OkObjectResult>();
+        }
+
+        [Fact]
+        public async Task UpdateCategory_WithArticle_ReturnArticle()
+        {
+            //Arrange
+            Category expected = CreatedRandomCategory();
+            categoryServiceStub.Setup(service => service.Update(It.IsAny<int>(), It.IsAny<CategoryDto>())).ReturnsAsync(expected);
+            CategoryController controller = new(categoryServiceStub.Object);
+            //Act
+            var result = (await controller.UpdateCategory(It.IsAny<int>(), It.IsAny<CategoryDto>())).Result as OkObjectResult;
+            //Assert
+            result?.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Category>());
+        }
+
+        [Fact]
+        public async Task UpdateCategory_WithException_ReturnsNotFound()
+        {
+            //Arrange
+            categoryServiceStub.Setup(service => service.Update(It.IsAny<int>(), It.IsAny<CategoryDto>())).Throws(new Exception());
+            CategoryController controller = new(categoryServiceStub.Object);
+            //Act
+            var result = await controller.UpdateCategory(It.IsAny<int>(), It.IsAny<CategoryDto>());
+            //Assert
+            result.Result.Should().BeOfType<NotFoundResult>();
+        }
+
+        private static Category CreatedRandomCategory()
+        {
+            Category category = new (Guid.NewGuid().ToString());
             return category;
         }
     }
