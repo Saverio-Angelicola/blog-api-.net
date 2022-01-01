@@ -48,7 +48,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return await categoryService.Update(id, category.Name);
+                return Ok(await categoryService.Update(id, category.Name));
             }
             catch(Exception)
             {
