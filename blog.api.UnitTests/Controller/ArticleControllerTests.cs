@@ -258,10 +258,9 @@ namespace blog.api.UnitTests
 
         [Fact]
 
-        private Article CreateRandomArticle()
+        private static Article CreateRandomArticle()
         {
-            var guid = Guid.NewGuid();
-            var article = new Article(guid.ToString(), guid.ToString(), guid.ToString());
+            var article = new Article(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             return article;
         }
     }
