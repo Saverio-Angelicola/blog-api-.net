@@ -26,4 +26,8 @@
     <ProjectReference Include="..\blog-api\blog.api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
