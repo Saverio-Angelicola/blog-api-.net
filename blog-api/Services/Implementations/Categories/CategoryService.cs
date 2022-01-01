@@ -19,7 +19,7 @@ namespace blog_api.Services.Implementations.Categories
             return await categoryRepository.Create(category);
         }
 
-        public async Task<Category> Update(int id, string name)
+        public async Task<Category> Update(int id, CategoryDto category)
         {
             Category updatedCategory = categoryRepository.FindById(id);
             updatedCategory.Name = name;

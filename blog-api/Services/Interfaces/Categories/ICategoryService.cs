@@ -7,7 +7,7 @@ namespace blog_api.Services.Interfaces.Categories
     {
         Task<Category> Add(CategoryDto createdCategory);
         Task<Category> Delete(int id);
-        Task<Category> Update(int id, string name);
+        Task<Category> Update(int id, CategoryDto category);
         List<Category> GetAllCategories();
         Category GetCategoryById(int id);
     }
