@@ -15,8 +15,8 @@ namespace blog.api.UnitTests
 {
     public class ArticleControllerTests
     {
-        private Mock<IArticleService> articleServiceStub;
-        private Mock<ILogger<ArticleController>> loggerStub;
+        private readonly Mock<IArticleService> articleServiceStub;
+        private readonly Mock<ILogger<ArticleController>> loggerStub;
 
         public ArticleControllerTests()
         {
@@ -47,7 +47,7 @@ namespace blog.api.UnitTests
             //Act
             var result = (controller.GetArticles().Result as OkObjectResult);
             //Assert
-            result.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
+            result?.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace blog.api.UnitTests
             //Act
             var result = controller.GetArticle(It.IsAny<int>()).Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
+            result?.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
 
         }
 
@@ -109,9 +109,9 @@ namespace blog.api.UnitTests
             //Arrange
             List<Article> expected = new() { CreateRandomArticle(), CreateRandomArticle(), CreateRandomArticle() };
             articleServiceStub.Setup(service => service.GetArticleByCategory(It.IsAny<int>())).ReturnsAsync(expected);
-            ArticleController controller = new(articleServiceStub.Object,loggerStub.Object);
+            ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
             //Act
-            var result = await controller.GetByCategory(It.IsAny<int>()) ;
+            var result = await controller.GetByCategory(It.IsAny<int>());
             //Assert
             result.Result.Should().BeOfType<OkObjectResult>();
         }
@@ -126,7 +126,7 @@ namespace blog.api.UnitTests
             //Act
             var result = (await controller.GetByCategory(It.IsAny<int>())).Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Article>());
+            result?.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace blog.api.UnitTests
             //Act
             var result = (await controller.AddArticle(It.IsAny<CreateArticleDto>())).Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(exected,options=>options.ComparingByMembers<Article>());
+            result?.Value.Should().BeEquivalentTo(exected, options => options.ComparingByMembers<Article>());
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace blog.api.UnitTests
             articleServiceStub.Setup(service => service.Update(It.IsAny<int>(), It.IsAny<UpdateArticleDto>())).ReturnsAsync(exected);
             ArticleController controller = new(articleServiceStub.Object, loggerStub.Object);
             //Act
-            var result = await controller.UpdateArticle(It.IsAny<int>(),It.IsAny<UpdateArticleDto>());
+            var result = await controller.UpdateArticle(It.IsAny<int>(), It.IsAny<UpdateArticleDto>());
             //Assert
             result.Result.Should().BeOfType<OkObjectResult>();
         }
@@ -202,7 +202,7 @@ namespace blog.api.UnitTests
             //Act
             var result = (await controller.UpdateArticle(It.IsAny<int>(), It.IsAny<UpdateArticleDto>())).Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(exected,options=>options.ComparingByMembers<Article>());
+            result?.Value.Should().BeEquivalentTo(exected, options => options.ComparingByMembers<Article>());
         }
 
         [Fact]
@@ -240,7 +240,7 @@ namespace blog.api.UnitTests
             //Act
             var result = (await controller.DeleteArticle(It.IsAny<int>())).Result as OkObjectResult;
             //Assert
-            result.Value.Should().BeEquivalentTo(expected,options=>options.ComparingByMembers<Article>());
+            result?.Value.Should().BeEquivalentTo(expected, options => options.ComparingByMembers<Article>());
         }
 
         [Fact]
