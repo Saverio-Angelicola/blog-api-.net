@@ -22,7 +22,7 @@ namespace blog_api.Services.Implementations.Categories
         public async Task<Category> Update(int id, CategoryDto category)
         {
             Category updatedCategory = categoryRepository.FindById(id);
-            updatedCategory.Name = name;
+            updatedCategory.Name = category.Name;
             return await categoryRepository.Update(updatedCategory);
         }
 
