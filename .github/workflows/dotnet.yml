@@ -22,7 +22,7 @@ jobs:
       working-directory: blog-api
     - name: Build
       run: dotnet build --no-restore
-      working-directory: blog.api.UnitTests
+      working-directory: blog-api
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: blog-api
+      working-directory: blog.api.UnitTests
