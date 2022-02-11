@@ -35,7 +35,7 @@ namespace blog_api.Controllers
         {
             try
             {
-                return Ok(await categoryService.Add(category.Name));
+                return Ok(await categoryService.Add(category));
             }
             catch (Exception)
             {
@@ -46,7 +46,15 @@ namespace blog_api.Controllers
         [HttpPut("{id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> UpdateCategory([FromRoute(Name = "id")] int id, CategoryDto category)
         {
-            return await categoryService.Update(id, category.Name);
+            try
+            {
+                return Ok(await categoryService.Update(id, category));
+            }
+            catch(Exception)
+            {
+                return NotFound();
+            }
+            
         }
     }
 }

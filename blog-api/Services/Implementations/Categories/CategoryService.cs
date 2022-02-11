@@ -1,4 +1,5 @@
-﻿using blog_api.Models;
+﻿using blog_api.Dtos.Categories;
+using blog_api.Models;
 using blog_api.Repositories.Interfaces;
 using blog_api.Services.Interfaces.Categories;
 
@@ -12,16 +13,16 @@ namespace blog_api.Services.Implementations.Categories
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<Category> Add(string name)
+        public async Task<Category> Add(CategoryDto createdCategory)
         {
-            Category category = new(name);
+            Category category = new(createdCategory.Name);
             return await categoryRepository.Create(category);
         }
 
-        public async Task<Category> Update(int id, string name)
+        public async Task<Category> Update(int id, CategoryDto category)
         {
             Category updatedCategory = categoryRepository.FindById(id);
-            updatedCategory.Name = name;
+            updatedCategory.Name = category.Name;
             return await categoryRepository.Update(updatedCategory);
         }
 
